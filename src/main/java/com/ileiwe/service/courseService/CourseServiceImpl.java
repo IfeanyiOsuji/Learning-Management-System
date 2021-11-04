@@ -2,25 +2,28 @@ package com.ileiwe.service.courseService;
 
 import com.ileiwe.data.dto.CourseDto;
 import com.ileiwe.data.model.Course;
-import com.ileiwe.data.model.Instructor;
 import com.ileiwe.data.repository.CourseRepository;
 import com.ileiwe.data.repository.InstructorRepository;
-import com.ileiwe.web.CourseAlreadyExistException;
+import com.ileiwe.service.CourseService;
+import com.ileiwe.service.mapper.CourseMapper;
+import com.ileiwe.web.exceptions.CourseAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CourseServiceImpl implements CourseService{
+public class CourseServiceImpl implements CourseService {
     @Autowired
     InstructorRepository instructorRepository;
 
     @Autowired
     CourseRepository courseRepository;
+
+    @Autowired
+    CourseMapper courseMapper;
 
     @Override
     @Transactional
@@ -34,37 +37,19 @@ public class CourseServiceImpl implements CourseService{
 
     }
 
-    private Course getCourse(CourseDto courseDto, Instructor instructor, Course course) {
-        course.setTitle(courseDto.getTitle());
-        course.setDescription(courseDto.getDescription());
-        course.setDuration(courseDto.getDuration());
-        course.setLanguage(courseDto.getLanguage());
-        course.setImageUrls(courseDto.getImgUrl());
-        course.setInstructor(instructor);
-
-        return courseRepository.save(course);
-    }
-
     @Override
-    public Course update(CourseDto courseDto,Long id,Long num) {
-        Course course = courseRepository.findById(id).orElse(null);
-        if (instructorRepository.findById(id).isPresent()) {
-            Instructor instructor = instructorRepository.findById(id).get();
-
-            int num1 = Math.toIntExact(num);
-
-            if (course != null) {
-                return getCourse(courseDto, instructor, course);
-
-            } else {
-                throw new NullPointerException("Instructor with id " + id + " not found");
-            }
-
+    public Long update(Long id, CourseDto courseDto) {
+        if(courseDto == null){
+            throw new NullPointerException("Course cannot be null");
         }
-        return courseRepository.save(course);
-    }
-    @Override
-    public void update(String title) {
+        Optional<Course> courseInRepo = courseRepository.findById(id);
+        if(courseInRepo.isPresent()){
+            Course course = courseInRepo.get()
+            courseMapper.mapToCourse(courseDto, course);
+            courseRepository.save(course);
+            return id;
+        }
+        else throw new NullPointerException("Course with id "+id +" does not exist");
 
     }
 
