@@ -5,8 +5,7 @@ import com.ileiwe.data.model.Course;
 
 public interface CourseService{
     Course create(Course course);
-    Course update(CourseDto courseDto,Long id,Long num);
-    void update(String title);
+    Long update(Long id, CourseDto courseDto);
     void delete(Long id);
     Course viewCourse(Long id);
     void publishCourse(Long id);
