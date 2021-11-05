@@ -1,4 +1,4 @@
-package com.ileiwe.web;
+package com.ileiwe.web.exceptions;
 
 public class CourseAlreadyExistException extends RuntimeException {
     public CourseAlreadyExistException(String s) {

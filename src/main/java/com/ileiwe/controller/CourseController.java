@@ -2,9 +2,7 @@ package com.ileiwe.controller;
 
 
 import com.ileiwe.data.dto.CourseDto;
-import com.ileiwe.data.dto.InstructorPartyDto;
 import com.ileiwe.data.model.Course;
-import com.ileiwe.data.repository.CourseRepository;
 import com.ileiwe.service.courseService.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,18 +17,18 @@ public class CourseController {
     @PostMapping("/{id}")
     public ResponseEntity<?> createCourse(@RequestBody Course course) {
 
-      return ResponseEntity.ok().body(courseService.create(course));
+      return ResponseEntity.ok().body(courseService.createCourse(course));
     }
     @GetMapping("/course/{id}")
     public Course createCourse(@PathVariable Long id) {
-
-      return courseService.viewCourse(id);
+      return null;
+     // return courseService.viewCourse(id);
     }
 
   @PutMapping("/update/{id}/{num}")
-  public void update(@RequestBody CourseDto courseDto,@PathVariable Long id,@PathVariable Long num) {
+  public void update(@RequestBody CourseDto courseDto,@PathVariable Long id) {
 
-     courseService.update(courseDto,id,num);
+     courseService.update(id, courseDto);
   }
 
     }
