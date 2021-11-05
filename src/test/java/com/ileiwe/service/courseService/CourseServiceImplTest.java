@@ -1,10 +1,9 @@
 package com.ileiwe.service.courseService;
 
-import com.ileiwe.data.dto.CourseDto;
 import com.ileiwe.data.model.Course;
 import com.ileiwe.data.repository.CourseRepository;
 import com.ileiwe.data.repository.InstructorRepository;
-import com.ileiwe.web.CourseAlreadyExistException;
+import com.ileiwe.web.exceptions.CourseAlreadyExistException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ InstructorRepository instructorRepository;
         course.setDuration("1hour, 30min");
         course.setLanguage("English");
        assertThat(courseRepository.findAll().size()).isEqualTo(0);
-       courseServiceImpl.create(course);
+       courseServiceImpl.createCourse(course);
         assertThat(courseRepository.findAll().size()).isEqualTo(1);
     }
     @Test
@@ -41,13 +40,13 @@ InstructorRepository instructorRepository;
         course.setDuration("1hour, 30min");
         course.setLanguage("English");
         assertThat(courseRepository.findAll().size()).isEqualTo(1);
-        courseServiceImpl.create(course);
-        assertThrows(CourseAlreadyExistException.class, ()->courseServiceImpl.create(course));
+        courseServiceImpl.createCourse(course);
+        assertThrows(CourseAlreadyExistException.class, ()->courseServiceImpl.createCourse(course));
 
     }
 
     @Test
-    void update() {
+    void updateCourse() {
     }
 
     @Test

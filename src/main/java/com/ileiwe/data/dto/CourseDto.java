@@ -4,6 +4,7 @@ import com.ileiwe.data.model.Instructor;
 import lombok.Data;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -15,4 +16,8 @@ public class CourseDto {
     private String  language;
     private List<String> imgUrl;
     private Instructor instructor;
+    private LocalDateTime datePublished;
+    private boolean isPublished;
+
+
 }
